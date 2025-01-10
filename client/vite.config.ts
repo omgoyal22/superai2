@@ -6,13 +6,7 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
-  server: {
-    proxy: {
-      '/worker': {
-        target: 'https://cdn.jsdelivr.net',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/worker/, ''),
-      },
-    },
+  build: {
+    outDir: 'dist',
   },
 });
