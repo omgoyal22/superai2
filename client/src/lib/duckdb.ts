@@ -8,6 +8,10 @@ export async function initializeDuckDB() {
 
   const JSDELIVR_BUNDLES = duckdb.getJsDelivrBundles();
   const bundle = await duckdb.selectBundle(JSDELIVR_BUNDLES);
+  
+  // Use the correct path for the worker
+  const workerPath = 'worker/duckdb-browser-eh.worker.js';
+  
   const worker = new Worker(workerPath);
   const logger = new duckdb.ConsoleLogger();
 
@@ -22,7 +26,9 @@ export async function queryDatabase(query: string) {
   
   const conn = await db.connect();
   try {
+    console.log('Executing query:', query);
     const result = await conn.query(query);
+    console.log('Query result:', result.toArray());
     return result.toArray();
   } finally {
     await conn.close();
@@ -37,11 +43,17 @@ export async function loadCSV(file: File) {
     const tableName = file.name.replace(/\.[^/.]+$/, "").replace(/[^a-zA-Z0-9]/g, "_");
     const content = await file.arrayBuffer();
     await db.registerFileBuffer(file.name, new Uint8Array(content));
+    
     const result = await conn.query(`SELECT * FROM read_csv_auto('${file.name}', ignore_errors=true) LIMIT 1`);
     const columnNames = Object.keys(result.toArray()[0]).map(column => `"${column}"`).join(", ");
+    
     await conn.query(`CREATE TABLE ${tableName} AS SELECT ${columnNames} FROM read_csv_auto('${file.name}', ignore_errors=true)`);
     const schema = await conn.query(`SELECT column_name, data_type FROM information_schema.columns WHERE table_name = '${tableName}'`);
-    return { tableName, schema: schema.toArray() };
+
+    return {
+      tableName,
+      schema: schema.toArray(),
+    };
   } finally {
     await conn.close();
   }
