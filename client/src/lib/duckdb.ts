@@ -8,7 +8,7 @@ export async function initializeDuckDB() {
 
   const JSDELIVR_BUNDLES = duckdb.getJsDelivrBundles();
   const bundle = await duckdb.selectBundle(JSDELIVR_BUNDLES);
-  const worker = new Worker('/worker/npm/@duckdb/duckdb-wasm@1.29.0/dist/duckdb-browser-eh.worker.js');
+  const worker = new Worker(workerPath);
   const logger = new duckdb.ConsoleLogger();
 
   db = new duckdb.AsyncDuckDB(logger, worker);
