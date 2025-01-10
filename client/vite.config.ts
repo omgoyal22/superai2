@@ -9,4 +9,12 @@ export default defineConfig({
   build: {
     outDir: 'dist',
   },
+  server: {
+    port: 3000, // Ensure the server runs on a port
+    host: true, // Allow external access
+  },
+  preview: {
+    port: 3000, // Ensure the preview server runs on a port
+    host: true, // Allow external access
+  },
 });
