@@ -20,7 +20,7 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center">y
       <div className="bg-gray-800 p-8 rounded-lg shadow-lg text-center">
-        <h1 className="text-2xl font-bold text-white mb-6">Welcome to CSV Analytics</h1>
+        <h1 className="text-2xl font-bold text-white mb-6">Welcome to CSVvv Analytics</h1>
         {error && (
           <div className="mb-4 text-red-400 text-sm">
             {error}

@@ -1,4 +1,4 @@
-const GEMINI_API_KEY = 'AIzaSyAzotkOX2e4GScxh8BzhDvnCsv1Stz2gLg';
+const GEMINI_API_KEY = 'AIzaSyAmjvKS8tbFg29BGwkvrkXMVVfgJ3CKsH8';
 
 export async function generateSQLQuery(prompt: string, tableSchema: { tableName: string; columns: string }): Promise<string> {
   const { tableName, columns } = tableSchema;
@@ -6,7 +6,7 @@ export async function generateSQLQuery(prompt: string, tableSchema: { tableName:
   try {
     console.log("ttttt",tableName);
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
       {
         method: 'POST',
        
